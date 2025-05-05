@@ -13,7 +13,7 @@ import random
 import math
 from collections import OrderedDict
 import ast
-
+import sys
 
 
 
@@ -25,11 +25,16 @@ from driver import Driver
 from constants import DB_DRIVER_NAMES, DEFAULT_BASE_LAP, DRIVER_CONSTANTS, PREV_RACE_RESULTS, AVG_PIT_LOSS, NUMBER_OF_LAPS
 from Track_sectors import TRACK_SECTORS
 
+def resource_path(relative_path):
+
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
 
 
-quali_df = pd.read_csv('Data/all_quali_data.csv')
-race_df = pd.read_csv('Data/all_race_data.csv')
+quali_df = pd.read_csv(resource_path('Data/all_quali_data.csv'))
+race_df = pd.read_csv(resource_path('Data/all_race_data.csv'))
 compounds = ["soft", "medium", "hard"]
 
 
