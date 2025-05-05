@@ -330,7 +330,6 @@ def simulate_race(race, year, num_laps, best_strategy):
     drivers, number_of_sectors = initialise_starting_variables(race, year, best_strategy)
     for lap in range(num_laps):
         isolated_sectors = {}
-        #print(f"Simulating lap {lap} \n")
         for driver in drivers:
             driver.current_lap += 1
             driver.stint_lap += 1
@@ -342,7 +341,6 @@ def simulate_race(race, year, num_laps, best_strategy):
                 "initial_lap_time": initial_lap_time
             }
         for sector_number in range(number_of_sectors):
-            #print(f"Simulating sector {sector_number} of lap {lap}")
             calculate_gaps_to_in_front(drivers)
             for driver in drivers:
                 recalculated_sector_time = 0
@@ -350,7 +348,6 @@ def simulate_race(race, year, num_laps, best_strategy):
                     driver.current_lap_time += driver.starting_sector
                     driver.race_time += driver.starting_sector
                 else:
-                    #print(f"Driver {driver.driver_id} has gap to in front {driver.gap_to_in_front}")
                     current_sector_type = TRACK_SECTORS[race][sector_number]["type"]
                     drs_sector = TRACK_SECTORS[race][sector_number]["DRS"]
                     isolated_sector_time = isolated_sectors[driver.driver_id]['sectors'][sector_number]
@@ -358,7 +355,6 @@ def simulate_race(race, year, num_laps, best_strategy):
                         if drs_sector:
                             driver.drs = is_DRS_available(driver.gap_to_in_front, lap)
                             if driver.drs:
-                                #print(f"DRS triggered for {driver.driver_id}")
                                 recalculated_sector_time = get_DRS_affect(race, sector_number, isolated_sector_time)
                                 driver.drs = False
                             else:
@@ -366,9 +362,7 @@ def simulate_race(race, year, num_laps, best_strategy):
                         else:
                             recalculated_sector_time = get_slipstream_affect(race, sector_number, isolated_sector_time, driver.gap_to_in_front)
                     else:
-                        #print("Calculating cornering affect")
                         recalculated_sector_time = get_following_cornering_affect(race, sector_number, isolated_sector_time, driver.gap_to_in_front)
-                    #print(f"Driver {driver.driver_id} has sector {sector_number} time of {recalculated_sector_time} after original sector time of {isolated_sector_time} \n")
                     driver.current_lap_time += recalculated_sector_time
                     driver.race_time += recalculated_sector_time
             drivers = calculate_overtakes(drivers, race, sector_number)

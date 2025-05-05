@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /home/ethan/RaceSimulator/TheProject2/venv
+set -gx VIRTUAL_ENV /home/ethan/RaceSimulator/FormulaOneRaceSimulator/venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH
