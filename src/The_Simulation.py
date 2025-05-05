@@ -429,18 +429,18 @@ def run_preliminary_simulations(race_name, number_of_simulations):
     number_of_laps = get_number_of_laps(race_name)
     for i in range(number_of_simulations):
         simulated_order, race = simulate_race(race_name, 2024, number_of_laps, None)
-        write_data_to_csv(simulated_order, i, f'Data/{race_name}_preliminary_results.csv')
+        write_data_to_csv(simulated_order, i, resource_path(f'Data/{race_name}_preliminary_results.csv'))
 
 #Runs the simulations with the selected best strategy. 
 def run_final_simulations(race_name, number_of_simulations):
     number_of_laps = get_number_of_laps(race_name)
-    preliminary_results_df = pd.read_csv(f'Data/{race_name}_preliminary_results.csv')
+    preliminary_results_df = pd.read_csv(resource_path(f'Data/{race_name}_preliminary_results.csv'))
     driver_list = find_driver_list(race_name)
     preliminary_results_dictionary = create_results_dictionary(driver_list, preliminary_results_df)
     best_strategy_dictionary = calculate_best_strategy(preliminary_results_dictionary, driver_list)
     for i in range(number_of_simulations):
         optimised_simulated_drivers, race = simulate_race(race_name, 2024, number_of_laps, best_strategy_dictionary)
-        write_data_to_csv(optimised_simulated_drivers, i, f'Data/{race_name}_final_results.csv')
+        write_data_to_csv(optimised_simulated_drivers, i, resource_path(f'Data/{race_name}_final_results.csv'))
 
 #Executes the whole file. This is the method called from the GUI window. 
 def run_simulation(race_name, number_of_initial_simulations, number_of_final_simulations):

@@ -9,8 +9,14 @@ from PIL import Image, ImageTk
 import threading
 import The_Simulation
 importlib.reload(The_Simulation)
+import sys
+import os
 
+def resource_path(relative_path):
 
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
 
 loading_label = None
@@ -20,11 +26,11 @@ simulated_order_frame = None
 
 #Clears the previous results from the file.
 def clear_previous_results(race_name):
-    filename = f"Data/{race_name}_preliminary_results.csv"
+    filename = resource_path(f"Data/{race_name}_preliminary_results.csv")
     f = open(filename, "w+")
     f.close()   
 
-    filename = f"Data/{race_name}_final_results.csv"
+    filename = resource_path(f"Data/{race_name}_final_results.csv")
     f = open(filename, "w+")
     f.close()   
 
@@ -62,7 +68,7 @@ def generate_real_order_frame(root, race_name):
 
 #Calculates the average simulated order. 
 def generate_average_simulated_order(race_name):
-    results_df = pd.read_csv(f'Data/{race_name}_final_results.csv')
+    results_df = pd.read_csv(resource_path(f'Data/{race_name}_final_results.csv'))
     refined_results_df = results_df[["Driver", "finishing_position", "race_time", "overtakes"]]
 
     averages = refined_results_df.groupby("Driver").mean()
@@ -117,7 +123,7 @@ def generate_right_container_frame(root):
     image_frame = Frame(right_frame, width=300, height=300, bg="#0e0033")
     image_frame.pack(side=TOP, anchor="n")
 
-    img = Image.open("Data/F1_car_image.jpg")
+    img = Image.open(resource_path("Data/F1_car_image.jpg"))
     img = img.resize((320, 180), Image.LANCZOS)
     
     f1_car_image = ImageTk.PhotoImage(img)
